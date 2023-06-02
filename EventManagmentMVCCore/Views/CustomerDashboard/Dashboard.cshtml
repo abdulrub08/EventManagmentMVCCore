@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "CustomerDashboard";
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";  
+}
+
+
+
+<div ng-app="CustomerModule">
+
+    <environment include="Development">
+        @*@System.Web.Optimization.Styles.Render("~/CustomerContent/css")*@
+        <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css" />
+        <link rel="stylesheet" href="~/bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/Content/Gallery.css" />
+        <link rel="stylesheet" href="~/Content/angularPrint.css" />
+        <link rel="stylesheet" href="~/Content/trNgGrid.min.css" />
+        <link rel="stylesheet" href="~/Content/loading-bar.css" />
+
+        @*@System.Web.Optimization.Scripts.Render("~/bundles/CustomerNgbundle")*@
+        <script src="~/AngularJS/jquery.js"></script>
+        <script src="~/AngularJS/jquery-ui.js"></script>
+        <script src="~/Angularlib/angular.js"></script>
+        <script src="~/Angularlib/angular-animate.js"></script>
+        <script src="~/Angularlib/angular-cookies.js"></script>
+        <script src="~/Angularlib/angular-route.js"></script>
+        <script src="~/AngularJS/OuterModule/loading-bar.js"></script>
+        <script src="~/AngularJS/Module/App.js"></script>
+        <script src="~/AngularJS/Routing/CustomerRoutingModule.js"></script>
+        <script src="~/AngularJS/Directive/Angudirective.js"></script>
+        <script src="~/AngularJS/AngularController/BookVenueController.js"></script>
+        <script src="~/AngularJS/AngularController/BookEquipmentController.js"></script>
+        <script src="~/AngularJS/AngularController/BookFoodController.js"></script>
+        <script src="~/AngularJS/AngularController/BookLightController.js"></script>
+        <script src="~/AngularJS/AngularController/BookFlowerController.js"></script>
+        <script src="~/AngularJS/AngularController/TotalReceiptController.js"></script>
+        <script src="~/AngularJS/AngularController/BookingDetailsController.js"></script>
+        <script src="~/AngularJS/AngularController/OrderDetailsController.js"></script>
+        <script src="~/AngularJS/OuterModule/igCharLimit.js"></script>
+        <script src="~/AngularJS/OuterModule/angularPrint.js"></script>
+        <script src="~/AngularJS/OuterModule/trNgGrid.js"></script>
+    </environment>
+
+    <div ng-view></div>
+
+</div>

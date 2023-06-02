@@ -1,0 +1,170 @@
+﻿@using Event.DOM
+@model Registration;
+@{
+    ViewBag.Title = "Registration";
+}
+
+<link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/loading-bar.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Create an account</h6>
+            </div>
+            <div class="card-body">
+                <form asp-action="Registration">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 col-sm-12">
+                            If you already Create an account use that account to @Html.ActionLink("sign in", "Login", "Login")
+                            .
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-row">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Address" class="control-label"></label>
+                            <textarea asp-for="Address" class="form-control"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Country" class="control-label"></label>@{
+                                IEnumerable<SelectListItem> ctryList = (IEnumerable<SelectListItem>)TempData["country"];
+                            }
+                            <select id="ddlCountry" asp-for="Country" class="form-control" asp-items="ctryList">
+                            </select>
+                            <span asp-validation-for="Country" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="State" class="control-label"></label>
+                            <select id="ddlState" asp-for="State" class="form-control"></select>
+                            <span asp-validation-for="State" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="City" class="control-label"></label>
+                            <select id="ddlCity" asp-for="City" class="form-control"></select>
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Mobileno" class="control-label"></label>
+                            <input asp-for="Mobileno" class="form-control" />
+                            <span asp-validation-for="Mobileno" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="EmailID" class="control-label"></label>
+                            <input asp-for="EmailID" class="form-control" />
+                            <span asp-validation-for="EmailID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Username" class="control-label"></label>
+                            <input asp-for="Username" class="form-control" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="ConfirmPassword" class="control-label"></label>
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Gender" class="control-label"></label>
+                            <select asp-for="Gender" class="form-control">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Birthdate" class="control-label"></label>
+                            <input asp-for="Birthdate" type="date" class="form-control" />
+                            <span asp-validation-for="Birthdate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="RoleID" class="control-label"></label>
+                            <select asp-for="RoleID" class="form-control">
+                                <option value="1">Admin</option>
+                                <option value="3">SuperAdmin</option>
+                                <option value="2">Customer</option>
+                            </select>
+                            <span asp-validation-for="RoleID" class="text-danger"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-12">
+                            <input id="Submit1" type="submit" value="Register" class="btn btn-success" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ddlCountry").change(function () {
+                //var text = $(this).find("option:selected").text();
+                var val = $(this).val();
+                getStateByID(val);
+            });
+            $("#ddlState").change(function () {
+                //var text = $(this).find("option:selected").text();
+                var val = $(this).val();
+                getCityById(val);
+            });
+        });
+        function getStateByID(countryId) {
+            $.ajax({
+                type: 'Post',
+                url: "/Registration/GetState?Id=" + countryId,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                success: function (data) {
+                    PopulateDropDown("#ddlState", data);
+                },
+                error: function (eror, tur) {
+                    debugger
+                    alert("error");
+                }
+            });
+        }
+        function getCityById(stateID) {
+            $.ajax({
+                type: 'Post',
+                url: "/Registration/GetCity?Id=" + stateID,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                success: function (data) {
+                    PopulateDropDown("#ddlCity", data);
+                },
+                error: function (eror, tur) {
+                    debugger
+                    alert("error");
+                }
+            });
+        }
+        function PopulateDropDown(dropDownId, list) {
+            if (list != null && list.length > 0) {
+                $(dropDownId).removeAttr("disabled");
+                $.each(list, function () {
+                    $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+                });
+            }
+        }
+    </script>
+}
