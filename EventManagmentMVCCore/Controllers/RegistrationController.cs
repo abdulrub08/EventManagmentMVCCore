@@ -7,6 +7,7 @@ using Event.DAL.Repositories;
 using EventManagmentMVCCore.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using EventManagmentMVCCore.Security;
 
 namespace EventManagmentMVCCore.Controllers
 {
@@ -64,6 +65,8 @@ namespace EventManagmentMVCCore.Controllers
             {
                 if (registration != null)
                 {
+                    registration.Password= EncryptionLibrary.EncryptText(registration.Password);
+                    registration.ConfirmPassword= EncryptionLibrary.EncryptText(registration.ConfirmPassword);
                     var result = _registrationRepository.NEW_Customer(registration);
                     return RedirectToAction("Login", "Login");
                 }

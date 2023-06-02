@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using EventManagmentMVCCore.ViewModel;
 using EventManagmentMVCCore.Filters;
+using EventManagmentMVCCore.Security;
 
 namespace EventManagmentMVCCore.Controllers
 {
@@ -37,6 +38,7 @@ namespace EventManagmentMVCCore.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.Password = EncryptionLibrary.EncryptText(model.Password);
                 var result = db.ValidateUser(model.UserName, model.Password);
                 if (result != null)
                 {
