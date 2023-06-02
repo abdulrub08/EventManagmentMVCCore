@@ -1,41 +1,30 @@
-﻿@{
+﻿@using EventManagmentMVCCore.ViewModel
+@model LoginViewModel;
+@{
     ViewBag.Title = "Login";
 }
-
-
 <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 <link href="~/Content/loading-bar.css" rel="stylesheet" />
-@*@System.Web.Optimization.Scripts.Render("~/bundles/RegistrationNgbundle")*@
 
-<div ng-app="AppModule">
-    <div class="container" ng-controller="LoginController">
-
-
-
+<div>
+    <div class="container">
         @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { name = "form1", id = "form1" }))
         {
-           
-           
-            
             <div class="col-xs-offset-4 col-xs-4">
 
                 <h2 style="text-align:center">Sign in</h2>
                 <div class="clearfix"></div>
                 Use your Create account to Sign in.
                 <div class="form-group">
-                    Username
-                  <input id="Username" ng-model="Login.Username" name="Username" required class="form-control" type="text" />
-
-                    <span style="color: red" ng-show="form1.Username.$error.required && submitted">Enter Username </span>
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    Password
-                    <input type="password" name="password" ng-paste="pasttext" ng-cut="cuttext" ng-copy="copytext" class="form-control" ng-minlength="6" char-limit="15"
-                        ng-model="Login.password" required />
-
-                    <span ng-show="form1.password.$error.required && submitted" style="color: red">Enter Password</span>
-                    <span ng-show="form1.password.$error.minlength">Password to short</span>
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
 
                 </div>
 
@@ -50,7 +39,7 @@
                 }
 
                 <div style="text-align: center;">
-                    <input id="Submit1" class="btn btn-success" ng-click="submitForm(Login);" ng-disabled="form1.$invalid" type="submit" value="Sign in">
+                    <input id="btnsubmit" type="submit" value="Sign in" class="btn btn-success" />
                 </div>
                 <div style="text-align: center;">
                     No account?  @Html.ActionLink("Create one!", "Registration", "Registration")

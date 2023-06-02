@@ -1,20 +1,19 @@
-﻿@{
+﻿@using Event.DOM
+@model Registration
+{
     ViewBag.Title = "Registration";
 }
 
 <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-
-@*@System.Web.Optimization.Scripts.Render("~/bundles/RegistrationNgbundle")*@
-
 <link href="~/Content/loading-bar.css" rel="stylesheet" />
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
-<div ng-app="AppModule">
-    <div class="container" ng-controller="RegistrationController">
+<div>
+    <div class="container">
         <h2>Create an account</h2>
 
-        <form autocomplete="off" name="form1 ">
+        <form asp-action="Registration">
               <div class="row">
             <div class="col-xs-12 col-md-12 col-sm-12">
                     If you already Create an account use that account to @Html.ActionLink("sign in", "Login", "Login")
@@ -22,110 +21,146 @@
                 </div>
                  <div class="clearfix"></div></div>
             <div class="row">
-                
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    FullName
-                <input id="FullName" class="form-control" ng-model="Registration.FullName" required name="FullName" type="text" />
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span style="color: red" ng-show="form1.FullName.$error.required && submitted">Enter FullName </span>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    Address
-            <input id="Address" name="Address" ng-model="Registration.Address" required class="form-control" type="text" />
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span style="color: red" ng-show="form1.Address.$error.required && submitted">Enter Address </span>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <textarea asp-for="Address"  class="form-control"></textarea>
+                    <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    Country
-         <select class="form-control" ng-options="s.CountryID as s.Name for s in CountryList" ng-change="onCountryChange(Registration.CountryID)"
-             name="CountryID" required ng-model="Registration.CountryID">
-             <option value="">-- Select a Country --</option>
-         </select>
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span class="ng-hide" ng-show="form1.CountryID.$error.required && submitted" style="color: red">Select Country.</span>
+                <div class="form-group">
+                    <label asp-for="Country" class="control-label"></label>@{
+                        IEnumerable<SelectListItem> ctryList = (IEnumerable<SelectListItem>)TempData["country"];
+                    }
+                    <select id="ddlCountry" asp-for="Country" class="form-control" asp-items="ctryList">
+                    </select>
+                    <span asp-validation-for="Country" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    State
-         <select class="form-control" required ng-options="s.StateID as s.StateName for s in StateList" ng-change="onstateChange(Registration.StateID)"
-             name="StateID" ng-model="Registration.StateID">
-             <option value="">-- Select a State --</option>
-         </select>
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span class="ng-hide" ng-show="form1.StateID.$error.required && submitted" style="color: red">Select State.</span>
+                <div class="form-group">
+                    <label asp-for="State" class="control-label"></label>
+                    <select id="ddlState" asp-for="State" class="form-control"></select>
+                    <span asp-validation-for="State" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    City
-                <select class="form-control" ng-options="s.CityID as s.CityName for s in CityList"
-                    name="CityID" required ng-model="Registration.CityID">
-                    <option value="">-- Select a City --</option>
-                </select>
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span class="ng-hide" ng-show="form1.CityID.$error.required && submitted" style="color: red">Select City.</span>
+                <div class="form-group">
+                    <label asp-for="City" class="control-label"></label>
+                    <select id="ddlCity" asp-for="City" class="form-control"></select>
+                    <span asp-validation-for="City" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    Moblie no
-                <input name="mobileno" class="form-control" ng-model="Registration.mobileno" ng-minlength="10" char-limit="10" ng-maxlength="15" required type="number" />
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span ng-show="form1.mobileno.$error.required && submitted" style="color: red">Enter Moblie no</span>
-                    <span ng-show="form1.mobileno.$error.minlength" style="color: red">Enter Moblie no</span>
-                    <span ng-show="form1.mobileno.$error.maxlength" style="color: red">Enter Moblie no</span>
+                <div class="form-group">
+                    <label asp-for="Mobileno" class="control-label"></label>
+                    <input asp-for="Mobileno" class="form-control" />
+                    <span asp-validation-for="Mobileno" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    Email ID
-                 <input name="EmailID" class="form-control" ng-model="Registration.EmailID" ng-maxlength="30" char-limit="30" required type="email" />
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span ng-show="form1.EmailID.$error.required && submitted" style="color: red">Enter Email ID</span>
-                    <span ng-show="form1.EmailID.$error.email" style="color: red">Enter Email ID</span>
+                <div class="form-group">
+                    <label asp-for="EmailID" class="control-label"></label>
+                    <input asp-for="EmailID" class="form-control" />
+                    <span asp-validation-for="EmailID" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    Gender<br />
-                    <input id="rbtGender" name="rbtGender" required value="M" type="radio" ng-model="Registration.rbtGender" />
-                    Male
-                    <input id="rbtGender" name="rbtGender" required value="F" type="radio" ng-model="Registration.rbtGender" />
-                    Female
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span ng-show="form1.rbtGender.$error.required && submitted" style="color: red">Select Gender</span>
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    Date of birth
-                    <input type="text" class="form-control" char-limit="10" ng-model="Registration.Dateofbirth" mydatepickerreg
-                        name="Dateofbirth">
-                    <span style="color: red" ng-show="form1.Dateofbirth.$error.required && submitted">Enter Date of birth</span>
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    Username
-                    <input name="Username" autocomplete="false"
-                        class="form-control" ng-model="Registration.Username" char-limit="15" ng-blur="onUsername(Registration);"
-                        ng-minlength="6" required type="text" />
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span ng-show="form1.Username.$error.required && submitted" style="color: red">Enter Username</span>
-                    <span ng-show="form1.Username.$error.minlength">Username to short</span>
-
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="control-label"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    Password
-                    <input type="password" name="password" class="form-control" ng-minlength="6" char-limit="15"
-                        ng-model="Registration.password" required />
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span ng-show="form1.password.$error.required && submitted" style="color: red">Enter Password</span>
-                    <span ng-show="form1.password.$error.minlength">Password to short</span>
-
+                <div class="form-group">
+                    <label asp-for="Gender" class="control-label"></label>
+                    <select asp-for="Gender" class="form-control">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
                 </div>
-                <div class="col-xs-12 col-md-4 col-sm-3">
-                    Confirm Password
-                    <input type="password" name="confirmPassword" class="form-control" char-limit="15"
-                        ng-model="Registration.confirmPassword"
-                        required compare-to="Registration.password" />
-                    <div id="ngProgress" style="height: 2px; background-color: firebrick; color: firebrick; width: 98.986%; opacity: 1;"></div>
-                    <span ng-show="form1.confirmPassword.$error.required && submitted" style="color: red">Enter confirmPassword</span>
-                    <span ng-show="form1.confirmPassword.$error.compareTo" style="color: red">Must match the previous entry</span>
+                <div class="form-group">
+                    <label asp-for="Birthdate" class="control-label"></label>
+                    <input asp-for="Birthdate" type="date" class="form-control" />
+                    <span asp-validation-for="Birthdate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RoleID" class="control-label"></label>
+                    <select asp-for="RoleID" class="form-control">
+                        <option value="1">Admin</option>
+                        <option value="3">SuperAdmin</option>
+                        <option value="2">Customer</option>
+                    </select>
+                    <span asp-validation-for="RoleID" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-12">
-                    <input id="Submit1" ng-click="RegisterUser(Registration,form1);submitted=true" class="btn btn-success" type="submit" value="Register">
+                <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-12">
+                    <input id="Submit1" type="submit" value="Register" class="btn btn-success" />
                 </div>
             </div>
         </form>
     </div>
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ddlCountry").change(function () {
+                //var text = $(this).find("option:selected").text();
+                var val = $(this).val();
+                getStateByID(val);
+            });
+            $("#ddlState").change(function () {
+                //var text = $(this).find("option:selected").text();
+                var val = $(this).val();
+                getCityById(val);
+            });
+        });
+        function getStateByID(countryId) {
+            $.ajax({
+                type: 'Post',
+                url: "/Registration/GetState?Id=" + countryId,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                success: function (data) {
+                    PopulateDropDown("#ddlState", data);
+                },
+                error: function (eror, tur) {
+                    debugger
+                    alert("error");
+                }
+            });
+        }
+        function getCityById(stateID) {
+            $.ajax({
+                type: 'Post',
+                url: "/Registration/GetCity?Id=" + stateID,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                success: function (data) {
+                    PopulateDropDown("#ddlCity", data);
+                },
+                error: function (eror, tur) {
+                    debugger
+                    alert("error");
+                }
+            });
+        }
+        function PopulateDropDown(dropDownId, list) {
+            if (list != null && list.length > 0) {
+                $(dropDownId).removeAttr("disabled");
+                $.each(list, function () {
+                    $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+                });
+            }
+        }
+    </script>
+}

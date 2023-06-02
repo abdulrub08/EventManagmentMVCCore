@@ -11,8 +11,6 @@ namespace Event.DAL.Repositories
 {
     public class Account : BaseRepository, IAccount
     {
-        private readonly BaseRepository _context;
-
         public Account(IConfiguration configuration) : base(configuration)
         { }
 
