@@ -1,4 +1,6 @@
 using Event.DAL.Repositories;
+using Event.DAL.Repository;
+using Event.DOM;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -28,12 +30,28 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IAccount, Account>();
-//builder.Services.AddTransient<IOdsRepository, OdsRepository>();
+builder.Services.AddTransient<ILoginRepository, LoginRepository>();
+builder.Services.AddTransient<IRegistrationRepository, RegistrationRepository>();
+builder.Services.AddTransient<IDropdownCommonRepository, DropdownCommonRepository>();
+//builder.Services.AddTransient<IOds, Ods>();
 //builder.Services.AddTransient<IAppVersionService, AppVersionService>();
 //builder.Services.AddTransient<IPaymentManagerService, PaymentManagerService>();
 //builder.Services.Configure<StripeOptions>(Configuration.GetSection("StripeSettings"));
 //builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection("StripeSettings"));
+
+builder.Services.AddSession(options =>
+{
+
+    // default session time out is 20 minutes 
+    // but we can set it to any time span 
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+
+    // allows to use the session cookie 
+    // even if the user hasn't consented 
+    options.Cookie.IsEssential = true;
+
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,11 +67,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseCors("AllowMyOrigin");
-
+app.UseCookiePolicy();
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.Run();
