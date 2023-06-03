@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace EventManagmentMVCCore.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -24,7 +25,6 @@ namespace EventManagmentMVCCore.Controllers
            Registration registration = _accountService.GetLogedinUserByUserIDPassword("Admin", "123456");
             return View();
         }
-        [Authorize]
         public IActionResult Privacy()
         {
             return View();
