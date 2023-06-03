@@ -1,0 +1,72 @@
+﻿@using Event.DOM
+@model IEnumerable<Venue>
+
+@{
+    ViewData["Title"] = "VenueShowall";
+}
+
+<h1>VenueShowall</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VenueID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VenueName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VenueFilename)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VenueFilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Createdby)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Createdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VenueCost)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VenueID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VenueName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VenueFilename)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VenueFilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Createdby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Createdate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VenueCost)
+            </td>
+            <td>
+                    @Html.ActionLink("Edit", "VenueEdit", new {  id=item.VenueID }) |
+                    @Html.ActionLink("Details", "VenueDetails", new {  id=item.VenueID  }) |
+                    @Html.ActionLink("Delete", "VenueDelete", new {  id=item.VenueID  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -17,9 +17,9 @@ namespace EventManagmentMVCCore.Controllers
     public class LoginController : Controller
     {
         public IConfiguration _config = null;
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<LoginController> _logger;
         private readonly ILoginRepository db;
-        public LoginController(ILogger<HomeController> logger, IConfiguration config, ILoginRepository loginRepository)
+        public LoginController(ILogger<LoginController> logger, IConfiguration config, ILoginRepository loginRepository)
         {
             _config = config;
             db = loginRepository;

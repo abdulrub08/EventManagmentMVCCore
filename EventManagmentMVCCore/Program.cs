@@ -30,9 +30,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IDropdownCommonRepository, DropdownCommonRepository>();
 builder.Services.AddTransient<ILoginRepository, LoginRepository>();
 builder.Services.AddTransient<IRegistrationRepository, RegistrationRepository>();
-builder.Services.AddTransient<IDropdownCommonRepository, DropdownCommonRepository>();
+builder.Services.AddTransient<IVenueRepository, VenueRepository>();
 //builder.Services.AddTransient<IOds, Ods>();
 //builder.Services.AddTransient<IAppVersionService, AppVersionService>();
 //builder.Services.AddTransient<IPaymentManagerService, PaymentManagerService>();
