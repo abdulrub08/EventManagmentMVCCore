@@ -12,5 +12,8 @@ namespace Event.DAL
         public const string ValidateUser = "PROC_ValidateUser";
         public const string RegisterUser = "PROC_RegisterUser";
         #endregion
+        #region Venue
+        public const string AddVenue = "PROC_AddVenue";
+        #endregion
     }
 }

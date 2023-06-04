@@ -29,6 +29,14 @@ namespace EventManagmentMVCCore.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
+            if (HttpContext.Session.IsAvailable)
+            {
+               string RoleID = HttpContext.Session.GetString("RoleID");
+                if (RoleID!=null)
+                {
+                    return UserRedirectToDashBoard(int.Parse(RoleID));
+                }
+            }
             return View();
         }
 
@@ -52,19 +60,8 @@ namespace EventManagmentMVCCore.Controllers
                         remove_Anonymous_Cookies(); //Remove Anonymous_Cookies
                         AddCookie_For_API_Validation(result.ID);
                         HttpContext.Session.SetString("UserID", Convert.ToString(result.ID));
-                        HttpContext.Session.SetString("RoleID", Convert.ToString(result.RoleID));
-                        if (RoleID == 1)
-                        {
-                            return RedirectToAction("Dashboard", "Admin");
-                        }
-                        else if (RoleID == 2)
-                        {
-                            return RedirectToAction("Dashboard", "CustomerDashboard");
-                        }
-                        else if (RoleID == 3)
-                        {
-                            return RedirectToAction("Dashboard", "SuperAdmin");
-                        }
+                        HttpContext.Session.SetString("RoleID", Convert.ToString(RoleID));
+                       return UserRedirectToDashBoard(RoleID);
                     }
                 }
                 else
@@ -76,6 +73,23 @@ namespace EventManagmentMVCCore.Controllers
             return View();
         }
 
+        private RedirectToActionResult UserRedirectToDashBoard(int? RoleID)
+        {
+            string ActionName=string.Empty;
+            if (RoleID == 1)
+            {
+                ActionName = "Admin";
+            }
+            else if (RoleID == 2)
+            {
+                ActionName = "CustomerDashboard";
+            }
+            else if (RoleID == 3)
+            {
+                ActionName = "SuperAdmin";
+            }
+            return RedirectToAction("Dashboard", ActionName);
+        }
         public void AddCookie_For_API_Validation(int ID)
         {
             string cookieToken;

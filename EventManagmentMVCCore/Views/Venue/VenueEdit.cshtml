@@ -1,7 +1,15 @@
-﻿@model Venue
+﻿@model VenueEditViewModel
 
 @{
     ViewData["Title"] = "VenueEdit";
+}
+@section Style {
+    <style>
+        .imageThumbnail {
+            height: 200px;
+            width: auto;
+        }
+    </style>
 }
 
 <h1>VenueEdit</h1>
@@ -13,11 +21,6 @@
         <form asp-action="VenueEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="VenueID" class="control-label"></label>
-                <input asp-for="VenueID" class="form-control" />
-                <span asp-validation-for="VenueID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="VenueName" class="control-label"></label>
                 <input asp-for="VenueName" class="form-control" />
                 <span asp-validation-for="VenueName" class="text-danger"></span>
@@ -28,27 +31,32 @@
                 <span asp-validation-for="VenueFilename" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VenueFilePath" class="control-label"></label>
-                <input asp-for="VenueFilePath" class="form-control" />
-                <span asp-validation-for="VenueFilePath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Createdby" class="control-label"></label>
-                <input asp-for="Createdby" class="form-control" />
-                <span asp-validation-for="Createdby" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Createdate" class="control-label"></label>
-                <input asp-for="Createdate" class="form-control" />
-                <span asp-validation-for="Createdate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="VenueCost" class="control-label"></label>
                 <input asp-for="VenueCost" class="form-control" />
                 <span asp-validation-for="VenueCost" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="Photo" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <div class="custom-file">
+                        <input asp-for="Photo" class="custom-file-input form-control">
+                        <label class="custom-file-label">Click here to change photo</label>
+                    </div>
+                </div>
+            </div>
+            @*Display the existing employee photo*@
+            @{
+                var photoPath = "~/UploadedFiles/" + (Model.VenueFilePath ?? "noimage.jpg");
+            }
+            <div class="form-group row col-sm-4 offset-4">
+                <img class="imageThumbnail" src="@photoPath" asp-append-version="true" />
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <a asp-action="VenueShowall" class="btn btn-primary">Cancel</a>
+                </div>
             </div>
         </form>
     </div>
@@ -60,4 +68,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
 }

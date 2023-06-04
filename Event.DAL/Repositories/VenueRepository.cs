@@ -4,7 +4,9 @@ using Event.DOM;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,14 +18,31 @@ namespace Event.DAL.Repositories
         {
         }
 
-        public void DeleteVenue(int id)
+        public bool DeleteVenue(int id)
         {
             throw new NotImplementedException();
         }
-
-        public void SaveVenue(Venue venue)
+        public async Task<Venue> SaveVenueAsync(Venue venue)
         {
-            throw new NotImplementedException();
+            var query = "INSERT INTO Venue (VenueName, VenueCost, VenueFilename,VenueFilePath,Createdby,Createdate) VALUES (@VenueName, @VenueCost, @VenueFilename,@VenueFilePath,@Createdby,@Createdate)" +
+                    "SELECT CAST(SCOPE_IDENTITY() as int)";
+            var parameters = new DynamicParameters();
+            parameters.Add("@VenueFilename", venue.VenueFilename);
+            parameters.Add("@VenueName", venue.VenueName);
+            parameters.Add("@VenueCost", venue.VenueCost);
+            parameters.Add("@VenueFilePath", venue.VenueFilePath);
+            parameters.Add("@Createdby", venue.Createdby);
+            parameters.Add("@Createdate", DateTime.Now);
+            using (var connection = CreateConnection())
+            {
+                var id = await connection.QuerySingleAsync<int>(query, parameters);
+                var createdVenue = new Venue
+                {
+                    VenueID = id,
+                    VenueName = venue.VenueName
+                };
+                return createdVenue;
+            }
         }
 
         public IEnumerable<Venue> ShowVenue()
@@ -36,7 +55,7 @@ namespace Event.DAL.Repositories
             }
         }
 
-        public void UpdateVenue(Venue venue)
+        public bool UpdateVenue(Venue venue)
         {
             throw new NotImplementedException();
         }
@@ -45,8 +64,8 @@ namespace Event.DAL.Repositories
         {
             using (var connection = CreateConnection())
             {
-                var sql = "select * from Venue where VenueID="+ id;
-                Venue venue = connection.QuerySingle<Venue>(sql);
+                var sql = "select * from Venue where VenueID= @Id";
+                Venue venue = connection.QuerySingle<Venue>(sql,new { id });
                 return venue;
             }
         }

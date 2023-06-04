@@ -8,10 +8,10 @@ namespace Event.DAL.Repository
 {
     public interface IVenueRepository
     {
-        void SaveVenue(Venue venue);
-        void UpdateVenue(Venue venue);
+        Task<Venue> SaveVenueAsync(Venue venue);
+        bool UpdateVenue(Venue venue);
         IEnumerable<Venue> ShowVenue();
-        void DeleteVenue(int id);
+        bool DeleteVenue(int id);
         Venue VenueByID(int id);
     }
 }

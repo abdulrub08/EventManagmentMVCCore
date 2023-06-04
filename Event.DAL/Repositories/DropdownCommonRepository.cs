@@ -32,14 +32,14 @@ namespace Event.DAL.Repositories
             }
         }
 
-        IEnumerable<State> IDropdownCommonRepository.GetStatebyID(int ID)
+        IEnumerable<State> IDropdownCommonRepository.GetStatebyID(int id)
         {
             try
             {
                 using (var connection = CreateConnection())
                 {
-                    var sql = "select * from States where CountryID="+ID;
-                    var states = connection.Query<State>(sql);
+                    var sql = "select * from States where CountryID=@Id";
+                    var states = connection.Query<State>(sql,new {id});
                     return states;
                 }
             }
@@ -50,14 +50,14 @@ namespace Event.DAL.Repositories
             }
         }
 
-        IEnumerable<City> IDropdownCommonRepository.GetCitybyID(int ID)
+        IEnumerable<City> IDropdownCommonRepository.GetCitybyID(int id)
         {
             try
             {
                 using (var connection = CreateConnection())
                 {
-                    var sql = "select * from City where StateID=" + ID;
-                    var city = connection.Query<City>(sql);
+                    var sql = "select * from City where StateID=@Id";
+                    var city = connection.Query<City>(sql, new { id });
                     return city;
                 }
             }

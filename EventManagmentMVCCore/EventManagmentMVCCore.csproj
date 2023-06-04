@@ -65,4 +65,8 @@
     <ProjectReference Include="..\Event.DOM\Event.DOM.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\UploadedFiles\" />
+  </ItemGroup>
+
 </Project>
