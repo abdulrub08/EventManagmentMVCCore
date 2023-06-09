@@ -22,7 +22,7 @@ namespace Event.DAL.Repositories
         {
             throw new NotImplementedException();
         }
-        public async Task<Venue> SaveVenueAsync(Venue venue)
+        public async Task<Venue> SaveVenueAsync(Venue venue) 
         {
             var query = "INSERT INTO Venue (VenueName, VenueCost, VenueFilename,VenueFilePath,Createdby,Createdate) VALUES (@VenueName, @VenueCost, @VenueFilename,@VenueFilePath,@Createdby,@Createdate)" +
                     "SELECT CAST(SCOPE_IDENTITY() as int)";

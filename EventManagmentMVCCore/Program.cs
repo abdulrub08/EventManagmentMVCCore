@@ -4,7 +4,19 @@ using Event.DOM;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
 using System.Text;
+using EventManagmentMVCCore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +28,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
-
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -30,10 +41,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//builder.Services.AddDbContext<AppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
+//Register dapper in scope    
+//builder.Services.AddScoped<IDapperRepositry, DapperRepositry>();
 builder.Services.AddTransient<IDropdownCommonRepository, DropdownCommonRepository>();
 builder.Services.AddTransient<ILoginRepository, LoginRepository>();
 builder.Services.AddTransient<IRegistrationRepository, RegistrationRepository>();
+builder.Services.AddTransient<IFileUploadServices, FileUploadServices>();
 builder.Services.AddTransient<IVenueRepository, VenueRepository>();
+builder.Services.AddTransient<ICommonRepository, CommonRepository>();
 //builder.Services.AddTransient<IOds, Ods>();
 //builder.Services.AddTransient<IAppVersionService, AppVersionService>();
 //builder.Services.AddTransient<IPaymentManagerService, PaymentManagerService>();

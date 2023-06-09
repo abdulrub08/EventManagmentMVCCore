@@ -11,15 +11,19 @@ namespace Event.DOM
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Equipment
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Xml.Linq;
+
+    public partial class Equipment: BaseDOM
     {
         public int EquipmentID { get; set; }
+
+        [DisplayName("Equipment Name")]
         public string EquipmentName { get; set; }
         public string EquipmentFilename { get; set; }
+        [Display(Name = "Equipment Image")]
         public string EquipmentFilePath { get; set; }
-        public Nullable<int> Createdby { get; set; }
-        public Nullable<System.DateTime> Createdate { get; set; }
         public Nullable<int> EquipmentCost { get; set; }
     }
 }

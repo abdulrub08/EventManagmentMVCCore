@@ -14,7 +14,7 @@ namespace Event.DAL.Repositories
     public class LoginRepository : BaseRepository,ILoginRepository
     {
         public LoginRepository(IConfiguration configuration) : base(configuration)
-        { }
+        {}
         public Registration ValidateUser(string Username, string Password)
         {
             var query = @"EXEC " + DBConstant.ValidateUser + " @Username,@Password";

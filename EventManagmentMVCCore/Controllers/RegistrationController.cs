@@ -35,11 +35,11 @@ namespace EventManagmentMVCCore.Controllers
             {
                 AddCookie_For_API_Validation(4); //Anonymous 
                 List<SelectListItem> _countrylist = _dropdownCommonRepository.GetCountry()
-               .Select(n =>
+               .Select(x =>
                new SelectListItem
                {
-                   Value = Convert.ToString(n.CountryID),
-                   Text = n.Name
+                   Value = Convert.ToString(x.CountryID),
+                   Text = x.Name
                }).ToList();
                 var selectListItem = new SelectListItem()
                 {

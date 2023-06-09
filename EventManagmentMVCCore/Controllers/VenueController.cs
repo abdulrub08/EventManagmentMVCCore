@@ -1,6 +1,7 @@
 ﻿using Event.DAL.Repositories;
 using Event.DAL.Repository;
 using Event.DOM;
+using EventManagmentMVCCore.Services;
 using EventManagmentMVCCore.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,11 +14,15 @@ namespace EventManagmentMVCCore.Controllers
         private readonly ILogger<VenueController> _logger;
         private readonly IVenueRepository _venueRepository;
         private readonly IWebHostEnvironment hostingEnvironment;
-        public VenueController(ILogger<VenueController> logger, IWebHostEnvironment hostingEnvironment, IVenueRepository venueRepository)
+        private readonly IFileUploadServices fileUploadServices;
+        public VenueController(ILogger<VenueController> logger, IWebHostEnvironment hostingEnvironment, 
+            IVenueRepository venueRepository, 
+            IFileUploadServices fileUploadServices)
         {
             _logger = logger;
             _venueRepository = venueRepository;
             this.hostingEnvironment = hostingEnvironment;
+            this.fileUploadServices = fileUploadServices;
         }
         public IActionResult Create()
         {
@@ -28,27 +33,12 @@ namespace EventManagmentMVCCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = null;
-
-                // If the Photo property on the incoming model object is not null, then the user
-                // has selected an image to upload.
+               
                 if (model.Photo != null)
                 {
-                    // The image must be uploaded to the images folder in wwwroot
-                    // To get the path of the wwwroot folder we are using the inject
-                    // HostingEnvironment service provided by ASP.NET Core
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFiles");
-                    // To make sure the file name is unique we are appending a new
-                    // GUID value and and an underscore to the file name
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    // Use CopyTo() method provided by IFormFile interface to
-                    // copy the file to wwwroot/images folder
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                    model.VenueFilePath= uniqueFileName;
-                    model.VenueFilename= model.Photo.FileName;
+                  model.VenueFilePath = await fileUploadServices.Upload(model.Photo);
+                  model.VenueFilename= model.Photo.FileName;
                 }
-
                 Venue newVenvue = new Venue
                 {
                     VenueFilename= model.VenueFilename,

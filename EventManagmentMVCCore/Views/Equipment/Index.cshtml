@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Equipment>
+
+@{
+    ViewData["Title"] = "Equipment";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EquipmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Createdby)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EquipmentCost)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EquipmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Createdby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EquipmentCost)
+            </td>
+            <td>
+                    @Html.ActionLink("Edit", "Edit", new {  Id=item.EquipmentID  }) |
+                    @Html.ActionLink("Details", "Details", new {  Id=item.EquipmentID  }) |
+                    @Html.ActionLink("Delete", "Delete", new {  Id=item.EquipmentID  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
