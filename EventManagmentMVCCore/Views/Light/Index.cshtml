@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Light>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LightID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LightType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LightName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LightFilename)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LightFilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Createdby)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Createdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LightCost)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LightID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LightType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LightName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LightFilename)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LightFilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Createdby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Createdate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LightCost)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.LightID  }) |
+                @Html.ActionLink("Details", "Details", new {  id=item.LightID  }) |
+                @Html.ActionLink("Delete", "Delete", new {  id=item.LightID  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

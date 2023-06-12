@@ -1,0 +1,44 @@
+﻿@model Light
+
+@{
+    ViewData["Title"] = "Details";
+    // Get the full path of the existing employee photo for display
+    var photoPath = "~/UploadedFiles/" + (Model.LightFilePath ?? "noimage.jpg");
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Light</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LightType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LightType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LightName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LightName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LightCost)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LightCost)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LightFilePath)
+        </dt>
+        <dd class="col-sm-10">
+            <img class="imageThumbnail" src="@photoPath" asp-append-version="true" />
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.LightID  }) |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Flower>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FlowerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlowerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlowerCost)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlowerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlowerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlowerCost)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.FlowerID}) |
+                    @Html.ActionLink("Details", "Details", new { id=item.FlowerID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.FlowerID })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

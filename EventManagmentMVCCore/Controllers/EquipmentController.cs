@@ -15,11 +15,11 @@ namespace EventManagmentMVCCore.Controllers
     public class EquipmentController : Controller
     {
         private readonly ILogger<EquipmentController> _logger;
-        private readonly CommonRepository _equipmentRepository;
+        private readonly ICommonRepository _equipmentRepository;
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IFileUploadServices fileUploadServices;
         public EquipmentController(ILogger<EquipmentController> logger, 
-            IWebHostEnvironment hostingEnvironment, CommonRepository equipmentRepository, 
+            IWebHostEnvironment hostingEnvironment, ICommonRepository equipmentRepository, 
             IFileUploadServices fileUploadServices)
         {
             _logger = logger;

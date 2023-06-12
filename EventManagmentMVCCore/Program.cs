@@ -50,9 +50,6 @@ builder.Services.AddTransient<IRegistrationRepository, RegistrationRepository>()
 builder.Services.AddTransient<IFileUploadServices, FileUploadServices>();
 builder.Services.AddTransient<IVenueRepository, VenueRepository>();
 builder.Services.AddTransient<ICommonRepository, CommonRepository>();
-//builder.Services.AddTransient<IOds, Ods>();
-//builder.Services.AddTransient<IAppVersionService, AppVersionService>();
-//builder.Services.AddTransient<IPaymentManagerService, PaymentManagerService>();
 //builder.Services.Configure<StripeOptions>(Configuration.GetSection("StripeSettings"));
 //builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection("StripeSettings"));
 
@@ -62,7 +59,6 @@ builder.Services.AddSession(options =>
     // default session time out is 20 minutes 
     // but we can set it to any time span 
     options.IdleTimeout = TimeSpan.FromMinutes(30);
-
     // allows to use the session cookie 
     // even if the user hasn't consented 
     options.Cookie.IsEssential = true;
