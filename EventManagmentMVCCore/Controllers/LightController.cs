@@ -67,7 +67,7 @@ namespace EventManagmentMVCCore.Controllers
                     Createdby = Convert.ToInt32(HttpContext.Session.GetString("UserID")),
                     Createdate = DateTime.Now
                 };
-                var result = await Task.FromResult(_equipmentRepository.Insert<Light>("[dbo].[EquipmentInsert]", newval,
+                var result = await Task.FromResult(_equipmentRepository.Insert<Light>("[dbo].[VenueInsert]", newval,
                commandType: CommandType.StoredProcedure));
                 return RedirectToAction(nameof(Details), new { id = result.LightID });
             }
@@ -118,7 +118,7 @@ namespace EventManagmentMVCCore.Controllers
                         Createdby = data.Createdby,
                         Createdate = data.Createdate
                     };
-                    var result = await Task.FromResult(_equipmentRepository.Update<Light>("[dbo].[EquipmentUpdate]"
+                    var result = await Task.FromResult(_equipmentRepository.Update<Light>("[dbo].[VenueUpdate]"
                    , newVenvue,
                    commandType: CommandType.StoredProcedure));
                     return RedirectToAction(nameof(Details), new { id = result.LightID });
