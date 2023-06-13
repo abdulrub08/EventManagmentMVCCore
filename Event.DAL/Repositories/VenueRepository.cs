@@ -18,10 +18,7 @@ namespace Event.DAL.Repositories
         {
         }
 
-        public bool DeleteVenue(int id)
-        {
-            throw new NotImplementedException();
-        }
+
         public async Task<Venue> SaveVenueAsync(Venue venue) 
         {
             var query = "INSERT INTO Venue (VenueName, VenueCost, VenueFilename,VenueFilePath,Createdby,Createdate) VALUES (@VenueName, @VenueCost, @VenueFilename,@VenueFilePath,@Createdby,@Createdate)" +
@@ -69,5 +66,11 @@ namespace Event.DAL.Repositories
                 return venue;
             }
         }
+
+        bool IVenueRepository.DeleteVenue(int id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
