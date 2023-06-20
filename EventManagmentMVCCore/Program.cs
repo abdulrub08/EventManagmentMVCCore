@@ -50,6 +50,8 @@ builder.Services.AddTransient<IRegistrationRepository, RegistrationRepository>()
 builder.Services.AddTransient<IFileUploadServices, FileUploadServices>();
 builder.Services.AddTransient<IVenueRepository, VenueRepository>();
 builder.Services.AddTransient<ICommonRepository, CommonRepository>();
+
+builder.Services.AddAntiforgery(options => { options.SuppressXFrameOptionsHeader = true; });
 //builder.Services.Configure<StripeOptions>(Configuration.GetSection("StripeSettings"));
 //builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection("StripeSettings"));
 
