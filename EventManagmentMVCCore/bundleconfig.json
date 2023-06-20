@@ -1,0 +1,36 @@
+[
+  {
+    "outputFileName": "wwwroot/css/login.min.css",
+    "inputFiles": [
+      "wwwroot/vendor/fontawesome-free/css/all.cs",
+      "wwwroot/css/site.css",
+      "wwwroot/css/sb-admin-2.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common.min.js",
+    "inputFiles": [
+      "wwwroot/vendor/jquery/jquery.js",
+      "wwwroot/vendor/bootstrap/js/bootstrap.bundle.js",
+      "wwwroot/vendor/jquery-easing/jquery.easing.js",
+      "wwwroot/js/js/sb-admin-2.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/lib-Jquery.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/dist/jquery.js",
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]
