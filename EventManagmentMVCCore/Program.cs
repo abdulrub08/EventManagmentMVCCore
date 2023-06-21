@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Text;
 using EventManagmentMVCCore.Services;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Dependency;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +51,7 @@ builder.Services.AddTransient<IRegistrationRepository, RegistrationRepository>()
 builder.Services.AddTransient<IFileUploadServices, FileUploadServices>();
 builder.Services.AddTransient<IVenueRepository, VenueRepository>();
 builder.Services.AddTransient<ICommonRepository, CommonRepository>();
-
+builder.Services.AddMediatR(x=> x.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 builder.Services.AddAntiforgery(options => { options.SuppressXFrameOptionsHeader = true; });
 //builder.Services.Configure<StripeOptions>(Configuration.GetSection("StripeSettings"));
 //builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection("StripeSettings"));

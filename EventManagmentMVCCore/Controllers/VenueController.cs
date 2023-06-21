@@ -1,8 +1,12 @@
 ﻿using Event.DAL.Repositories;
 using Event.DAL.Repository;
 using Event.DOM;
+using EventManagmentMVCCore.Commands;
+using EventManagmentMVCCore.Notification;
+using EventManagmentMVCCore.Queries;
 using EventManagmentMVCCore.Services;
 using EventManagmentMVCCore.ViewModel;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Web.Mvc;
@@ -15,11 +19,13 @@ namespace EventManagmentMVCCore.Controllers
         private readonly IVenueRepository _venueRepository;
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IFileUploadServices fileUploadServices;
+        private readonly IMediator _mediator;
         public VenueController(ILogger<VenueController> logger, IWebHostEnvironment hostingEnvironment, 
             IVenueRepository venueRepository, 
-            IFileUploadServices fileUploadServices)
+            IFileUploadServices fileUploadServices, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
             _venueRepository = venueRepository;
             this.hostingEnvironment = hostingEnvironment;
             this.fileUploadServices = fileUploadServices;
@@ -47,19 +53,25 @@ namespace EventManagmentMVCCore.Controllers
                     VenueFilePath=model.VenueFilePath,
                     Createdby = Convert.ToInt32(HttpContext.Session.GetString("UserID"))
                 };
-                var createdVenue = await _venueRepository.SaveVenueAsync(newVenvue);
-                return RedirectToAction("VenueDetails", new { id = createdVenue.VenueID });
+
+                var venueToReturn = await _mediator.Send(new AddVenueCommand(newVenvue));
+
+                await _mediator.Publish(new VenueAddedNotification(venueToReturn));
+                return RedirectToAction("VenueDetails", new { id = venueToReturn.VenueID });
+
+                //var createdVenue = await _venueRepository.SaveVenueAsync(newVenvue);
+                //return RedirectToAction("VenueDetails", new { id = createdVenue.VenueID });
             }
             return View();
         }
-        public IActionResult VenueShowall()
+        public async Task<IActionResult> VenueShowall()
         {
-            IEnumerable<Venue> venues = _venueRepository.ShowVenue();
-            return View(venues);
+            return View(await _mediator.Send(new GetVenue()));
         }
-        public IActionResult VenueEdit(int id)
+        public async Task<IActionResult> VenueEdit(int id)
         {
-            Venue venue = _venueRepository.VenueByID(id);
+            //Venue venue = _venueRepository.VenueByID(id);
+            Venue venue = await _mediator.Send(new GetVenueById(id));
             VenueEditViewModel venueEditView = new VenueEditViewModel()
             {
                 Id = venue.VenueID,
@@ -110,10 +122,10 @@ namespace EventManagmentMVCCore.Controllers
             }
             return View(model);
         }
-        public IActionResult VenueDetails(int id)
+        public async Task<IActionResult> VenueDetails(int id)
         {
-            Venue venue = _venueRepository.VenueByID(id);
-            return View(venue);
+            //Venue venue = _venueRepository.VenueByID(id);
+            return View(await _mediator.Send(new GetVenueById(id)));
         }
     }
 }
