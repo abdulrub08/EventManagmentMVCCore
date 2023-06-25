@@ -23,12 +23,14 @@ namespace EventManagmentMVCCore.Controllers
         {
             _config = config;
             db = loginRepository;
+            _logger=logger;
         }
 
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login()
         {
+            _logger.LogInformation("User Came in to the Login Page");
             if (HttpContext.Session.IsAvailable)
             {
                string RoleID = HttpContext.Session.GetString("RoleID");

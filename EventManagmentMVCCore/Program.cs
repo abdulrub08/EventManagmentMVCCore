@@ -1,9 +1,13 @@
 using Event.DAL.Repositories;
 using Event.DAL.Repository;
 using EventManagmentMVCCore.Services;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+=======
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Dependency;
+>>>>>>> 8ebdae0f24adafd540b7fbc17ffa07d51b25e197
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,9 +41,8 @@ builder.Services.AddTransient<IRegistrationRepository, RegistrationRepository>()
 builder.Services.AddTransient<IFileUploadServices, FileUploadServices>();
 builder.Services.AddTransient<IVenueRepository, VenueRepository>();
 builder.Services.AddTransient<ICommonRepository, CommonRepository>();
-//builder.Services.AddTransient<IOds, Ods>();
-//builder.Services.AddTransient<IAppVersionService, AppVersionService>();
-//builder.Services.AddTransient<IPaymentManagerService, PaymentManagerService>();
+builder.Services.AddMediatR(x=> x.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+builder.Services.AddAntiforgery(options => { options.SuppressXFrameOptionsHeader = true; });
 //builder.Services.Configure<StripeOptions>(Configuration.GetSection("StripeSettings"));
 //builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection("StripeSettings"));
 
@@ -49,7 +52,6 @@ builder.Services.AddSession(options =>
     // default session time out is 20 minutes 
     // but we can set it to any time span 
     options.IdleTimeout = TimeSpan.FromMinutes(30);
-
     // allows to use the session cookie 
     // even if the user hasn't consented 
     options.Cookie.IsEssential = true;

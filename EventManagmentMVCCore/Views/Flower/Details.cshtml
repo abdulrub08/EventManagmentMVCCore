@@ -1,0 +1,38 @@
+﻿@model Flower
+
+@{
+    ViewData["Title"] = "Details";
+    // Get the full path of the existing employee photo for display
+    var photoPath = "~/UploadedFiles/" + (Model.FlowerFilePath ?? "noimage.jpg");
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Flower</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FlowerName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FlowerName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FlowerCost)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FlowerCost)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FlowerFilePath)
+        </dt>
+        <dd class="col-sm-10">
+            <img class="imageThumbnail" src="@photoPath" asp-append-version="true" />
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.FlowerID  }) |
+    <a asp-action="Index">Back to List</a>
+</div>

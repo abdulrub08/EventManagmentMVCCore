@@ -20,7 +20,7 @@ namespace Event.DAL.Repositories
             var query = @"EXEC " + DBConstant.ValidateUser + " @Username,@Password";
             using (var connection = CreateConnection())
             {
-                Registration registration = connection.QuerySingle<Registration>(query, new { Username, Password });
+                Registration registration = connection.QuerySingleOrDefault<Registration>(query, new { Username, Password });
                 return registration;
             }
         }

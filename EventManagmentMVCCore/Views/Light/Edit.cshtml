@@ -1,0 +1,74 @@
+﻿@model LightViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    // Get the full path of the existing employee photo for display
+    var photoPath = "~/UploadedFiles/" + (Model.LightFilePath ?? "noimage.jpg");
+}
+
+<h1>Edit</h1>
+
+<h4>Light</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*Use hidden input elements to store employee id and ExistingPhotoPath
+            which we need when we submit the form and update data in the database*@
+            <input hidden asp-for="LightID" />
+            <div class="form-group">
+                <label asp-for="LightType" class="control-label"></label>
+                <input asp-for="LightType" class="form-control" />
+                <span asp-validation-for="LightType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LightName" class="control-label"></label>
+                <input asp-for="LightName" class="form-control" />
+                <span asp-validation-for="LightName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LightCost" class="control-label"></label>
+                <input asp-for="LightCost" class="form-control" />
+                <span asp-validation-for="LightCost" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Photo" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <div class="custom-file">
+                        <input asp-for="Photo" class="form-control custom-file-input">
+                        <label class="custom-file-label">Click here to change photo</label>
+                    </div>
+                </div>
+            </div>
+            @*Display the existing employee photo*@
+            <div class="form-group row col-sm-4 offset-4">
+                <img class="imageThumbnail" src="@photoPath" asp-append-version="true" />
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <a asp-action="index" class="btn btn-primary">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+}

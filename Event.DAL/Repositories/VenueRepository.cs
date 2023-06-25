@@ -15,11 +15,24 @@ namespace Event.DAL.Repositories
     public class VenueRepository : BaseRepository, IVenueRepository
     {
         public VenueRepository(IConfiguration configuration) : base(configuration)
+<<<<<<< HEAD
         {}
         public bool DeleteVenue(int id)
+=======
         {
-            throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<Venue>> GetVenues()
+>>>>>>> 8ebdae0f24adafd540b7fbc17ffa07d51b25e197
+        {
+            using (var connection = CreateConnection())
+            {
+                var sql = "select * from Venue";
+                //IEnumerable<Venue> venues = connection.Query<Venue>(sql);
+                return await Task.FromResult(connection.Query<Venue>(sql));
+            }
+        }
+
         public async Task<Venue> SaveVenueAsync(Venue venue) 
         {
             var query = "INSERT INTO Venue (VenueName, VenueCost, VenueFilename,VenueFilePath,Createdby,Createdate) VALUES (@VenueName, @VenueCost, @VenueFilename,@VenueFilePath,@Createdby,@Createdate)" +
@@ -64,5 +77,30 @@ namespace Event.DAL.Repositories
                 return venue;
             }
         }
+        public async Task<Venue> VenueById(int id)
+        {
+            using (var connection = CreateConnection())
+            {
+                var sql = "select * from Venue where VenueID= @Id";
+                return await Task.FromResult(connection.QuerySingle<Venue>(sql, new { id }));
+            }
+        }
+        bool IVenueRepository.DeleteVenue(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task EventOccured(Venue venue, string evt)
+        {
+            using (var connection = CreateConnection())
+            {
+                var sql = "select * from Venue where VenueID= @VenueID";
+                Venue result_venue = connection.QuerySingle<Venue>(sql, new { venue.VenueID });
+                result_venue.VenueName= $"{venue.VenueName} evt: {evt}";
+            }
+            await Task.CompletedTask;
+             
+        }
+
     }
 }
