@@ -33,7 +33,7 @@ namespace EventManagmentMVCCore.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+                
                 if (model.Photo != null)
                 {
                   model.VenueFilePath = await fileUploadServices.Upload(model.Photo);

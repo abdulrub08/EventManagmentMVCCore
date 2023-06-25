@@ -15,9 +15,7 @@ namespace Event.DAL.Repositories
     public class VenueRepository : BaseRepository, IVenueRepository
     {
         public VenueRepository(IConfiguration configuration) : base(configuration)
-        {
-        }
-
+        {}
         public bool DeleteVenue(int id)
         {
             throw new NotImplementedException();
@@ -44,7 +42,6 @@ namespace Event.DAL.Repositories
                 return createdVenue;
             }
         }
-
         public IEnumerable<Venue> ShowVenue()
         {
             using (var connection = CreateConnection())
@@ -54,12 +51,10 @@ namespace Event.DAL.Repositories
                 return venues;
             }
         }
-
         public bool UpdateVenue(Venue venue)
         {
             throw new NotImplementedException();
         }
-
         public Venue VenueByID(int id)
         {
             using (var connection = CreateConnection())
