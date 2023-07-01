@@ -39,7 +39,18 @@ namespace EventManagmentMVCCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                string uniqueFile = "";
+                string fileuploadedpath = "";
+                Guid guid = Guid.NewGuid();
+                uniqueFile = guid + "_" + model.Photo.FileName;
+
+                fileuploadedpath = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFiles");
+                FileStream stream = new FileStream(fileuploadedpath, FileMode.Create);
+                model.Photo.CopyTo(stream);
+                model.VenueFilePath = fileuploadedpath + uniqueFile;
+                model.VenueFilename = uniqueFile;
+                //file.CopyToAsync(new FileStream(filePath, FileMode.Create));
+
                 if (model.Photo != null)
                 {
                   model.VenueFilePath = await fileUploadServices.Upload(model.Photo);

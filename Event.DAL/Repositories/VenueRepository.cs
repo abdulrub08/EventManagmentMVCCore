@@ -15,15 +15,15 @@ namespace Event.DAL.Repositories
     public class VenueRepository : BaseRepository, IVenueRepository
     {
         public VenueRepository(IConfiguration configuration) : base(configuration)
-<<<<<<< HEAD
+
         {}
         public bool DeleteVenue(int id)
-=======
         {
+            return false;
         }
 
         public async Task<IEnumerable<Venue>> GetVenues()
->>>>>>> 8ebdae0f24adafd540b7fbc17ffa07d51b25e197
+
         {
             using (var connection = CreateConnection())
             {

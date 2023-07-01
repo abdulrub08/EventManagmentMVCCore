@@ -14,6 +14,7 @@ using EventManagmentMVCCore.Security;
 
 namespace EventManagmentMVCCore.Controllers
 {
+   
     public class LoginController : Controller
     {
         public IConfiguration _config = null;
